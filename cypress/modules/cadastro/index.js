@@ -32,8 +32,37 @@ function verificarSeCadastroFoiFeitoComSucesso() {
     .and("contain", "Account Created!");
 }
 
+function criarConta(nome, email) {
+  cy.visit("/login");
+  iniciarCadastro(nome, email);
+  preencherCadastro();
+  verificarSeCadastroFoiFeitoComSucesso();
+}
+
+function verificarSeSecaoNovoUsuarioEstaVisivel() {
+  cy.get(".signup-form > h2")
+    .should("be.visible")
+    .and("contain", "New User Signup!");
+}
+
+function verificarSeTelaDeInformacoesDaContaEstaVisivel() {
+  cy.contains("h2.title b", "Enter Account Information").should("be.visible");
+}
+
+function verificaSeMensagemDeCadastroExistenteFoiExibida() {
+  cy.get("form[action*=signup] p")
+    .should("exist")
+    .should("be.visible")
+    .should("contain", "Email Address already exist!")
+    .and("contain.text", "Email Address already exist!");
+}
+
 module.exports = {
   iniciarCadastro,
   preencherCadastro,
   verificarSeCadastroFoiFeitoComSucesso,
+  criarConta,
+  verificarSeSecaoNovoUsuarioEstaVisivel,
+  verificarSeTelaDeInformacoesDaContaEstaVisivel,
+  verificaSeMensagemDeCadastroExistenteFoiExibida,
 };

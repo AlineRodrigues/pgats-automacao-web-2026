@@ -3,9 +3,10 @@
   cy.get('[data-qa="login-password"]').type(senha);
   cy.get('[data-qa="login-button"]').click();
 }
-function verificarSeLoginFoiEfetuadoComSucesso() {
-  cy.contains(".navbar-nav li", "PGATS Aut");
-  cy.get(".navbar-na").contains("PGATS Aut").should("be.visible");
+function verificarSeLoginFoiEfetuadoComSucesso(nomeDeUsuario) {
+  cy.contains(".navbar-nav li", `Logged in as ${nomeDeUsuario}`).should(
+    "be.visible",
+  );
 }
 
 function verificarSeMensagemDeErroFoiExibidaNoLogin() {
@@ -15,17 +16,20 @@ function verificarSeMensagemDeErroFoiExibidaNoLogin() {
   );
 }
 
-function verificaSeMensagemDeCadastroExistenteFoiExibida() {
-  cy.get("form[action*=signup] p")
-    .should("exist")
+function acessarPaginaDeLoginECadastro() {
+  cy.get('a[href="/login"]').click();
+}
+
+function verificarSeSecaoLoginEstaVisivel() {
+  cy.get(".login-form > h2")
     .should("be.visible")
-    .should("contain", "Email Address already exist!")
-    .and("contain.text", "Email Address already exist!");
+    .and("contain", "Login to your account");
 }
 
 module.exports = {
   preencherLogin,
   verificarSeLoginFoiEfetuadoComSucesso,
   verificarSeMensagemDeErroFoiExibidaNoLogin,
-  verificaSeMensagemDeCadastroExistenteFoiExibida,
+  acessarPaginaDeLoginECadastro,
+  verificarSeSecaoLoginEstaVisivel,
 };
