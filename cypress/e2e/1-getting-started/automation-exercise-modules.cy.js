@@ -12,6 +12,19 @@ const {
   verificaSeMensagemDeCadastroExistenteFoiExibida,
 } = require("../../modules/login");
 const { efetuarLogout } = require("../../modules/logout");
+const {
+  bloquearAnuncios,
+  verificarSePaginaInicialEstaVisivel,
+  acessarPaginaDeProdutos,
+  verificarSePaginaTodosOsProdutosFoiExibida,
+  verificarSeListaDeProdutosEstaVisivel,
+  acessarDetalhesDoPrimeiroProduto,
+  verificarSePaginaDeDetalhesDoProdutoFoiExibida,
+  verificarSeDetalhesDoProdutoEstaoVisiveis,
+  pesquisarProduto,
+  verificarSeSecaoProdutosPesquisadosEstaVisivel,
+  verificarSeProdutosDaPesquisaEstaoVisiveis,
+} = require("../../modules/produtos");
 
 describe("Automation Exercise", () => {
   // Cadastro
@@ -50,5 +63,34 @@ describe("Automation Exercise", () => {
     cy.visit("https://automationexercise.com/login");
     iniciarCadastro("PGTAS Aut", "pgats+1792297261532@test.com");
     verificaSeMensagemDeCadastroExistenteFoiExibida;
+  });
+
+  it("CT08 - Verificar todos os produtos e a página de detalhes do produto", () => {
+    bloquearAnuncios();
+    cy.visit("/");
+    verificarSePaginaInicialEstaVisivel();
+
+    acessarPaginaDeProdutos();
+    verificarSePaginaTodosOsProdutosFoiExibida();
+    verificarSeListaDeProdutosEstaVisivel();
+
+    acessarDetalhesDoPrimeiroProduto();
+    verificarSePaginaDeDetalhesDoProdutoFoiExibida();
+    verificarSeDetalhesDoProdutoEstaoVisiveis();
+  });
+
+  it("CT09 - Pesquisar produto", () => {
+    const nomeDoProduto = "Blue Top";
+
+    bloquearAnuncios();
+    cy.visit("/");
+    verificarSePaginaInicialEstaVisivel();
+
+    acessarPaginaDeProdutos();
+    verificarSePaginaTodosOsProdutosFoiExibida();
+
+    pesquisarProduto(nomeDoProduto);
+    verificarSeSecaoProdutosPesquisadosEstaVisivel();
+    verificarSeProdutosDaPesquisaEstaoVisiveis(nomeDoProduto);
   });
 });
